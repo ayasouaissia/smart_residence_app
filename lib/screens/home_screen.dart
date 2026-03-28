@@ -3,6 +3,7 @@ import 'profile_screen.dart';
 import 'maintenance_screen.dart';
 import 'visitor_screen.dart';
 import 'vehicle_screen.dart';
+import 'parking_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,8 +17,8 @@ class HomeScreen extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-  padding: const EdgeInsets.all(24),
-  child: Column(
+        padding: const EdgeInsets.all(24),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -70,6 +71,17 @@ class HomeScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const VehicleScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _menuCard(
+              context,
+              icon: Icons.local_parking,
+              title: "Parking",
+              subtitle: "Check parking spot availability",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ParkingScreen()),
               ),
             ),
           ],
