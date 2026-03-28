@@ -8,6 +8,8 @@ import 'payment_screen.dart';
 import 'notification_screen.dart';
 import 'staff_tasks_screen.dart';
 import 'security_screen.dart';
+import 'community_screen.dart';
+import 'messages_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -24,9 +26,7 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications),
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (_) => const NotificationScreen(),
-              ),
+              MaterialPageRoute(builder: (_) => const NotificationScreen()),
             ),
           ),
         ],
@@ -38,137 +38,62 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Text(
               "Welcome 👋",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const Text(
               "Ahmed Ben Ali — Apartment 12",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 32),
-
-            _menuCard(
-              context,
-              icon: Icons.person,
-              title: "My Profile",
+            _menuCard(context, icon: Icons.person, title: "My Profile",
               subtitle: "View your personal information",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ProfileScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.build,
-              title: "Maintenance Request",
+            _menuCard(context, icon: Icons.build, title: "Maintenance Request",
               subtitle: "Send a repair or maintenance request",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const MaintenanceScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const MaintenanceScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.person_add,
-              title: "Visitor Access",
+            _menuCard(context, icon: Icons.person_add, title: "Visitor Access",
               subtitle: "Add a visitor and generate QR Code",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VisitorScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const VisitorScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.directions_car,
-              title: "Vehicle Registration",
+            _menuCard(context, icon: Icons.directions_car, title: "Vehicle Registration",
               subtitle: "Register your vehicle",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VehicleScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const VehicleScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.local_parking,
-              title: "Parking",
+            _menuCard(context, icon: Icons.local_parking, title: "Parking",
               subtitle: "Check parking spot availability",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ParkingScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const ParkingScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.payment,
-              title: "Payments",
+            _menuCard(context, icon: Icons.payment, title: "Payments",
               subtitle: "Pay your bills and view history",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const PaymentScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const PaymentScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.engineering,
-              title: "Staff Tasks",
+            _menuCard(context, icon: Icons.engineering, title: "Staff Tasks",
               subtitle: "View and update maintenance tasks",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StaffTasksScreen(),
-                ),
-              ),
-            ),
-
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const StaffTasksScreen()))),
             const SizedBox(height: 16),
-
-            _menuCard(
-              context,
-              icon: Icons.security,
-              title: "Security Control",
+            _menuCard(context, icon: Icons.security, title: "Security Control",
               subtitle: "Manage visitors and security alerts",
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SecurityScreen(),
-                ),
-              ),
-            ),
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const SecurityScreen()))),
+            const SizedBox(height: 16),
+            _menuCard(context, icon: Icons.people, title: "Community Feed",
+              subtitle: "News and announcements",
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const CommunityScreen()))),
+            const SizedBox(height: 16),
+            _menuCard(context, icon: Icons.message, title: "Messages",
+              subtitle: "Chat with residents and staff",
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const MessagesScreen()))),
           ],
         ),
       ),
@@ -184,30 +109,17 @@ class HomeScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         leading: CircleAvatar(
           backgroundColor: Colors.indigo.shade100,
-          child: Icon(
-            icon,
-            color: Colors.indigo,
-          ),
+          child: Icon(icon, color: Colors.indigo),
         ),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Text(title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         subtitle: Text(subtitle),
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.indigo,
-        ),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Colors.indigo),
         onTap: onTap,
       ),
     );
