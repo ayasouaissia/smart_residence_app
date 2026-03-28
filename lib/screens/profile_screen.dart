@@ -7,7 +7,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("الملف الشخصي"),
+        title: const Text("My Profile"),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
@@ -15,7 +15,6 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // صورة الملف الشخصي
             const CircleAvatar(
               radius: 50,
               backgroundColor: Colors.indigo,
@@ -23,21 +22,19 @@ class ProfileScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              "أحمد بن علي",
+              "Ahmed Ben Ali",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const Text(
-              "ساكن — شقة رقم 12",
+              "Resident — Apartment 12",
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 32),
-
-            // معلومات الساكن
-            _infoCard(Icons.phone, "الهاتف", "0550 123 456"),
-            _infoCard(Icons.email, "البريد الإلكتروني", "ahmed@email.com"),
-            _infoCard(Icons.home, "العمارة", "B"),
-            _infoCard(Icons.stairs, "الطابق", "3"),
-            _infoCard(Icons.door_front_door, "رقم الشقة", "12"),
+            _infoCard(Icons.phone, "Phone", "0550 123 456"),
+            _infoCard(Icons.email, "Email", "ahmed@email.com"),
+            _infoCard(Icons.home, "Building", "B"),
+            _infoCard(Icons.stairs, "Floor", "3"),
+            _infoCard(Icons.door_front_door, "Apartment Number", "12"),
           ],
         ),
       ),

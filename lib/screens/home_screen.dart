@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import 'maintenance_screen.dart';
+import 'visitor_screen.dart';
+import 'vehicle_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,9 +15,9 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
+      body: SingleChildScrollView(
+  padding: const EdgeInsets.all(24),
+  child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -27,7 +29,6 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 32),
-
             _menuCard(
               context,
               icon: Icons.person,
@@ -39,7 +40,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
             _menuCard(
               context,
               icon: Icons.build,
@@ -48,6 +48,28 @@ class HomeScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const MaintenanceScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _menuCard(
+              context,
+              icon: Icons.person_add,
+              title: "Visitor Access",
+              subtitle: "Add a visitor and generate QR Code",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const VisitorScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _menuCard(
+              context,
+              icon: Icons.directions_car,
+              title: "Vehicle Registration",
+              subtitle: "Register your vehicle",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const VehicleScreen()),
               ),
             ),
           ],
