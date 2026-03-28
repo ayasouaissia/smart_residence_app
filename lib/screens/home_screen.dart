@@ -4,6 +4,8 @@ import 'maintenance_screen.dart';
 import 'visitor_screen.dart';
 import 'vehicle_screen.dart';
 import 'parking_screen.dart';
+import 'payment_screen.dart';
+import 'notification_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,6 +17,15 @@ class HomeScreen extends StatelessWidget {
         title: const Text("Home"),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationScreen()),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -82,6 +93,17 @@ class HomeScreen extends StatelessWidget {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const ParkingScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _menuCard(
+              context,
+              icon: Icons.payment,
+              title: "Payments",
+              subtitle: "Pay your bills and view history",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PaymentScreen()),
               ),
             ),
           ],
