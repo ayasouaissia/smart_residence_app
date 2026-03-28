@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'profile_screen.dart';
+import 'maintenance_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,11 +13,70 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
       ),
-      body: const Center(
-        child: Text(
-          "Welcome to Residence App 🏠",
-          style: TextStyle(fontSize: 20),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Welcome 👋",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const Text(
+              "Ahmed Ben Ali — Apartment 12",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+            const SizedBox(height: 32),
+
+            _menuCard(
+              context,
+              icon: Icons.person,
+              title: "My Profile",
+              subtitle: "View your personal information",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            _menuCard(
+              context,
+              icon: Icons.build,
+              title: "Maintenance Request",
+              subtitle: "Send a repair or maintenance request",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MaintenanceScreen()),
+              ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _menuCard(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: CircleAvatar(
+          backgroundColor: Colors.indigo.shade100,
+          child: Icon(icon, color: Colors.indigo),
+        ),
+        title: Text(title,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        subtitle: Text(subtitle),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Colors.indigo),
+        onTap: onTap,
       ),
     );
   }
