@@ -6,6 +6,8 @@ import 'vehicle_screen.dart';
 import 'parking_screen.dart';
 import 'payment_screen.dart';
 import 'notification_screen.dart';
+import 'staff_tasks_screen.dart';
+import 'security_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,7 +24,9 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.notifications),
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const NotificationScreen()),
+              MaterialPageRoute(
+                builder: (_) => const NotificationScreen(),
+              ),
             ),
           ),
         ],
@@ -34,13 +38,20 @@ class HomeScreen extends StatelessWidget {
           children: [
             const Text(
               "Welcome 👋",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const Text(
               "Ahmed Ben Ali — Apartment 12",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
             ),
             const SizedBox(height: 32),
+
             _menuCard(
               context,
               icon: Icons.person,
@@ -48,10 +59,14 @@ class HomeScreen extends StatelessWidget {
               subtitle: "View your personal information",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const ProfileScreen(),
+                ),
               ),
             ),
+
             const SizedBox(height: 16),
+
             _menuCard(
               context,
               icon: Icons.build,
@@ -59,10 +74,14 @@ class HomeScreen extends StatelessWidget {
               subtitle: "Send a repair or maintenance request",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const MaintenanceScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const MaintenanceScreen(),
+                ),
               ),
             ),
+
             const SizedBox(height: 16),
+
             _menuCard(
               context,
               icon: Icons.person_add,
@@ -70,10 +89,14 @@ class HomeScreen extends StatelessWidget {
               subtitle: "Add a visitor and generate QR Code",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const VisitorScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const VisitorScreen(),
+                ),
               ),
             ),
+
             const SizedBox(height: 16),
+
             _menuCard(
               context,
               icon: Icons.directions_car,
@@ -81,10 +104,14 @@ class HomeScreen extends StatelessWidget {
               subtitle: "Register your vehicle",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const VehicleScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const VehicleScreen(),
+                ),
               ),
             ),
+
             const SizedBox(height: 16),
+
             _menuCard(
               context,
               icon: Icons.local_parking,
@@ -92,10 +119,14 @@ class HomeScreen extends StatelessWidget {
               subtitle: "Check parking spot availability",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const ParkingScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const ParkingScreen(),
+                ),
               ),
             ),
+
             const SizedBox(height: 16),
+
             _menuCard(
               context,
               icon: Icons.payment,
@@ -103,7 +134,39 @@ class HomeScreen extends StatelessWidget {
               subtitle: "Pay your bills and view history",
               onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const PaymentScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const PaymentScreen(),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            _menuCard(
+              context,
+              icon: Icons.engineering,
+              title: "Staff Tasks",
+              subtitle: "View and update maintenance tasks",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const StaffTasksScreen(),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            _menuCard(
+              context,
+              icon: Icons.security,
+              title: "Security Control",
+              subtitle: "Manage visitors and security alerts",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SecurityScreen(),
+                ),
               ),
             ),
           ],
@@ -121,17 +184,30 @@ class HomeScreen extends StatelessWidget {
   }) {
     return Card(
       elevation: 3,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         leading: CircleAvatar(
           backgroundColor: Colors.indigo.shade100,
-          child: Icon(icon, color: Colors.indigo),
+          child: Icon(
+            icon,
+            color: Colors.indigo,
+          ),
         ),
-        title: Text(title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, color: Colors.indigo),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.indigo,
+        ),
         onTap: onTap,
       ),
     );
