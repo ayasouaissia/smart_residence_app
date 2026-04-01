@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
 
 class VisitorScreen extends StatefulWidget {
   const VisitorScreen({super.key});
@@ -19,44 +22,39 @@ class _VisitorScreenState extends State<VisitorScreen> {
       );
       return;
     }
-    setState(() {
-      _submitted = true;
-    });
+    setState(() => _submitted = true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Visitor Access"),
+        title: Text(lang.t("visitor")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [const LanguageButton()],
       ),
-      body: _submitted ? _qrView() : _formView(),
+      body: _submitted ? _qrView(lang) : _formView(lang),
     );
   }
 
-  Widget _formView() {
+  Widget _formView(LanguageProvider lang) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Visitor Information",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          Text(lang.t("visitor_info"),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 24),
           TextField(
             controller: _nameController,
             decoration: InputDecoration(
-              labelText: "Visitor Name",
+              labelText: lang.t("visitor_name"),
               prefixIcon: const Icon(Icons.person),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              filled: true,
-              fillColor: Colors.white,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              filled: true, fillColor: Colors.white,
             ),
           ),
           const SizedBox(height: 16),
@@ -64,31 +62,23 @@ class _VisitorScreenState extends State<VisitorScreen> {
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              labelText: "Phone Number",
+              labelText: lang.t("phone_number"),
               prefixIcon: const Icon(Icons.phone),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              filled: true,
-              fillColor: Colors.white,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              filled: true, fillColor: Colors.white,
             ),
           ),
           const SizedBox(height: 32),
           SizedBox(
-            width: double.infinity,
-            height: 50,
+            width: double.infinity, height: 50,
             child: ElevatedButton(
               onPressed: _addVisitor,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.indigo,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text(
-                "Generate QR Code",
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
+              child: Text(lang.t("generate_qr"),
+                  style: const TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ),
         ],
@@ -96,7 +86,7 @@ class _VisitorScreenState extends State<VisitorScreen> {
     );
   }
 
-  Widget _qrView() {
+  Widget _qrView(LanguageProvider lang) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -104,13 +94,12 @@ class _VisitorScreenState extends State<VisitorScreen> {
           const Icon(Icons.check_circle, color: Colors.green, size: 80),
           const SizedBox(height: 16),
           Text(
-            "Visitor: ${_nameController.text}",
+            "${lang.t("visitor_name")}: ${_nameController.text}",
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 24),
           Container(
-            width: 200,
-            height: 200,
+            width: 200, height: 200,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.indigo, width: 3),
               borderRadius: BorderRadius.circular(12),
@@ -120,10 +109,8 @@ class _VisitorScreenState extends State<VisitorScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            "Show this QR Code at the entrance",
-            style: TextStyle(fontSize: 16, color: Colors.grey),
-          ),
+          Text(lang.t("show_qr"),
+              style: const TextStyle(fontSize: 16, color: Colors.grey)),
           const SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {
@@ -133,13 +120,9 @@ class _VisitorScreenState extends State<VisitorScreen> {
                 _phoneController.clear();
               });
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.indigo,
-            ),
-            child: const Text(
-              "Add Another Visitor",
-              style: TextStyle(color: Colors.white),
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo),
+            child: Text(lang.t("add_visitor"),
+                style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),

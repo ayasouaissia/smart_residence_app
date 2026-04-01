@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -31,7 +34,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
       "author": "Security Team",
       "avatar": Icons.security,
       "time": "5 hours ago",
-      "content": "Please make sure to close the main gate after 10PM. Thank you for your cooperation.",
+      "content": "Please make sure to close the main gate after 10PM.",
       "likes": 20,
       "comments": 2,
       "type": "announcement",
@@ -48,18 +51,18 @@ class _CommunityScreenState extends State<CommunityScreen> {
   ];
 
   void _likePost(int index) {
-    setState(() {
-      _posts[index]["likes"]++;
-    });
+    setState(() => _posts[index]["likes"]++);
   }
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Community Feed"),
+        title: Text(lang.t("community_feed")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [const LanguageButton()],
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
@@ -68,71 +71,54 @@ class _CommunityScreenState extends State<CommunityScreen> {
           final post = _posts[index];
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header
                   Row(
                     children: [
                       CircleAvatar(
                         backgroundColor: post["type"] == "announcement"
                             ? Colors.indigo.shade100
                             : Colors.grey.shade200,
-                        child: Icon(
-                          post["avatar"],
-                          color: post["type"] == "announcement"
-                              ? Colors.indigo
-                              : Colors.grey,
-                        ),
+                        child: Icon(post["avatar"],
+                            color: post["type"] == "announcement"
+                                ? Colors.indigo
+                                : Colors.grey),
                       ),
                       const SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            post["author"],
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            post["time"],
-                            style: const TextStyle(
-                                color: Colors.grey, fontSize: 12),
-                          ),
+                          Text(post["author"],
+                              style: const TextStyle(fontWeight: FontWeight.bold)),
+                          Text(post["time"],
+                              style: const TextStyle(color: Colors.grey, fontSize: 12)),
                         ],
                       ),
                       const Spacer(),
                       if (post["type"] == "announcement")
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
                             color: Colors.indigo.shade50,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Text(
-                            "Announcement",
-                            style: TextStyle(
-                                color: Colors.indigo, fontSize: 12),
-                          ),
+                          child: Text(lang.t("announcement"),
+                              style: const TextStyle(color: Colors.indigo, fontSize: 12)),
                         ),
                     ],
                   ),
                   const SizedBox(height: 12),
-                  // Content
                   Text(post["content"]),
                   const SizedBox(height: 12),
-                  // Actions
                   Row(
                     children: [
                       IconButton(
                         onPressed: () => _likePost(index),
-                        icon: const Icon(Icons.favorite_border,
-                            color: Colors.red),
+                        icon: const Icon(Icons.favorite_border, color: Colors.red),
                       ),
                       Text("${post["likes"]}"),
                       const SizedBox(width: 16),

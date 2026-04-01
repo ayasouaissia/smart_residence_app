@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
+import 'login_screen.dart';
 import 'profile_screen.dart';
 import 'maintenance_screen.dart';
 import 'visitor_screen.dart';
@@ -6,8 +10,6 @@ import 'vehicle_screen.dart';
 import 'parking_screen.dart';
 import 'payment_screen.dart';
 import 'notification_screen.dart';
-import 'staff_tasks_screen.dart';
-import 'security_screen.dart';
 import 'community_screen.dart';
 import 'messages_screen.dart';
 
@@ -16,18 +18,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: Text(lang.t("home")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()));
+          },
+        ),
         actions: [
+          const LanguageButton(),
           IconButton(
             icon: const Icon(Icons.notifications),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const NotificationScreen()),
-            ),
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const NotificationScreen())),
           ),
         ],
       ),
@@ -36,64 +46,70 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Welcome 👋",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              lang.t("welcome"),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const Text(
               "Ahmed Ben Ali — Apartment 12",
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 32),
-            _menuCard(context, icon: Icons.person, title: "My Profile",
-              subtitle: "View your personal information",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const ProfileScreen()))),
+            _menuCard(context,
+                icon: Icons.person,
+                title: lang.t("my_profile"),
+                subtitle: lang.t("my_profile_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const ProfileScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.build, title: "Maintenance Request",
-              subtitle: "Send a repair or maintenance request",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const MaintenanceScreen()))),
+            _menuCard(context,
+                icon: Icons.build,
+                title: lang.t("maintenance"),
+                subtitle: lang.t("maintenance_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const MaintenanceScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.person_add, title: "Visitor Access",
-              subtitle: "Add a visitor and generate QR Code",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const VisitorScreen()))),
+            _menuCard(context,
+                icon: Icons.person_add,
+                title: lang.t("visitor"),
+                subtitle: lang.t("visitor_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const VisitorScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.directions_car, title: "Vehicle Registration",
-              subtitle: "Register your vehicle",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const VehicleScreen()))),
+            _menuCard(context,
+                icon: Icons.directions_car,
+                title: lang.t("vehicle"),
+                subtitle: lang.t("vehicle_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const VehicleScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.local_parking, title: "Parking",
-              subtitle: "Check parking spot availability",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const ParkingScreen()))),
+            _menuCard(context,
+                icon: Icons.local_parking,
+                title: lang.t("parking"),
+                subtitle: lang.t("parking_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const ParkingScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.payment, title: "Payments",
-              subtitle: "Pay your bills and view history",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const PaymentScreen()))),
+            _menuCard(context,
+                icon: Icons.payment,
+                title: lang.t("payments"),
+                subtitle: lang.t("payments_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const PaymentScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.engineering, title: "Staff Tasks",
-              subtitle: "View and update maintenance tasks",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const StaffTasksScreen()))),
+            _menuCard(context,
+                icon: Icons.people,
+                title: lang.t("community"),
+                subtitle: lang.t("community_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const CommunityScreen()))),
             const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.security, title: "Security Control",
-              subtitle: "Manage visitors and security alerts",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const SecurityScreen()))),
-            const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.people, title: "Community Feed",
-              subtitle: "News and announcements",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const CommunityScreen()))),
-            const SizedBox(height: 16),
-            _menuCard(context, icon: Icons.message, title: "Messages",
-              subtitle: "Chat with residents and staff",
-              onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const MessagesScreen()))),
+            _menuCard(context,
+                icon: Icons.message,
+                title: lang.t("messages"),
+                subtitle: lang.t("messages_sub"),
+                onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const MessagesScreen()))),
           ],
         ),
       ),

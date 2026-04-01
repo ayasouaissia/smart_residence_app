@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Profile"),
+        title: Text(lang.t("my_profile")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [const LanguageButton()],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -25,16 +31,12 @@ class ProfileScreen extends StatelessWidget {
               "Ahmed Ben Ali",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            const Text(
-              "Resident — Apartment 12",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
             const SizedBox(height: 32),
-            _infoCard(Icons.phone, "Phone", "0550 123 456"),
-            _infoCard(Icons.email, "Email", "ahmed@email.com"),
-            _infoCard(Icons.home, "Building", "B"),
-            _infoCard(Icons.stairs, "Floor", "3"),
-            _infoCard(Icons.door_front_door, "Apartment Number", "12"),
+            _infoCard(Icons.phone, lang.t("phone"), "0550 123 456"),
+            _infoCard(Icons.email, lang.t("email"), "ahmed@email.com"),
+            _infoCard(Icons.home, lang.t("building"), "B"),
+            _infoCard(Icons.stairs, lang.t("floor"), "3"),
+            _infoCard(Icons.door_front_door, lang.t("apartment"), "12"),
           ],
         ),
       ),

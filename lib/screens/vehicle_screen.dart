@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
 
 class VehicleScreen extends StatefulWidget {
   const VehicleScreen({super.key});
@@ -10,16 +13,11 @@ class VehicleScreen extends StatefulWidget {
 class _VehicleScreenState extends State<VehicleScreen> {
   final _plateController = TextEditingController();
   final _brandController = TextEditingController();
-  String _selectedColor = "White";
+  String _selectedColorKey = "white";
   bool _submitted = false;
 
-  final List<String> _colors = [
-    "White",
-    "Black",
-    "Red",
-    "Blue",
-    "Silver",
-    "Other",
+  final List<String> _colorKeys = [
+    "white", "black", "red", "blue", "silver", "other",
   ];
 
   void _registerVehicle() {
@@ -29,99 +27,76 @@ class _VehicleScreenState extends State<VehicleScreen> {
       );
       return;
     }
-    setState(() {
-      _submitted = true;
-    });
+    setState(() => _submitted = true);
   }
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Vehicle Registration"),
+        title: Text(lang.t("vehicle")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [const LanguageButton()],
       ),
-      body: _submitted ? _successView() : _formView(),
+      body: _submitted ? _successView(lang) : _formView(lang),
     );
   }
 
-  Widget _formView() {
+  Widget _formView(LanguageProvider lang) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Vehicle Information",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+          Text(lang.t("vehicle_info"),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 24),
           TextField(
             controller: _plateController,
             decoration: InputDecoration(
-              labelText: "License Plate",
+              labelText: lang.t("license_plate"),
               prefixIcon: const Icon(Icons.confirmation_number),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              filled: true,
-              fillColor: Colors.white,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              filled: true, fillColor: Colors.white,
             ),
           ),
           const SizedBox(height: 16),
           TextField(
             controller: _brandController,
             decoration: InputDecoration(
-              labelText: "Car Brand",
+              labelText: lang.t("car_brand"),
               prefixIcon: const Icon(Icons.directions_car),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              filled: true,
-              fillColor: Colors.white,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              filled: true, fillColor: Colors.white,
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            "Car Color",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          Text(lang.t("car_color"),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           DropdownButtonFormField<String>(
-            value: _selectedColor,
+            value: _selectedColorKey,
             decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              filled: true,
-              fillColor: Colors.white,
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              filled: true, fillColor: Colors.white,
             ),
-            items: _colors.map((color) {
-              return DropdownMenuItem(value: color, child: Text(color));
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedColor = value!;
-              });
-            },
+            items: _colorKeys.map((key) =>
+                DropdownMenuItem(value: key, child: Text(lang.t(key)))).toList(),
+            onChanged: (value) => setState(() => _selectedColorKey = value!),
           ),
           const SizedBox(height: 32),
           SizedBox(
-            width: double.infinity,
-            height: 50,
+            width: double.infinity, height: 50,
             child: ElevatedButton(
               onPressed: _registerVehicle,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.indigo,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text(
-                "Register Vehicle",
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
+              child: Text(lang.t("register_vehicle"),
+                  style: const TextStyle(fontSize: 18, color: Colors.white)),
             ),
           ),
         ],
@@ -129,17 +104,15 @@ class _VehicleScreenState extends State<VehicleScreen> {
     );
   }
 
-  Widget _successView() {
+  Widget _successView(LanguageProvider lang) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.check_circle, color: Colors.green, size: 100),
           const SizedBox(height: 16),
-          const Text(
-            "Vehicle Registered!",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
+          Text(lang.t("vehicle_registered"),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           const SizedBox(height: 24),
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -147,11 +120,11 @@ class _VehicleScreenState extends State<VehicleScreen> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  _infoRow(Icons.confirmation_number, "Plate", _plateController.text),
+                  _infoRow(Icons.confirmation_number, lang.t("license_plate"), _plateController.text),
                   const Divider(),
-                  _infoRow(Icons.directions_car, "Brand", _brandController.text),
+                  _infoRow(Icons.directions_car, lang.t("car_brand"), _brandController.text),
                   const Divider(),
-                  _infoRow(Icons.color_lens, "Color", _selectedColor),
+                  _infoRow(Icons.color_lens, lang.t("car_color"), lang.t(_selectedColorKey)),
                 ],
               ),
             ),
@@ -165,13 +138,9 @@ class _VehicleScreenState extends State<VehicleScreen> {
                 _brandController.clear();
               });
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.indigo,
-            ),
-            child: const Text(
-              "Register Another Vehicle",
-              style: TextStyle(color: Colors.white),
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.indigo),
+            child: Text(lang.t("register_another"),
+                style: const TextStyle(color: Colors.white)),
           ),
         ],
       ),

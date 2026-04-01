@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
 
 class ParkingScreen extends StatefulWidget {
   const ParkingScreen({super.key});
@@ -8,7 +11,6 @@ class ParkingScreen extends StatefulWidget {
 }
 
 class _ParkingScreenState extends State<ParkingScreen> {
-  // Dummy parking data
   final List<Map<String, dynamic>> _spots = [
     {"number": "A01", "status": "available", "plate": ""},
     {"number": "A02", "status": "occupied", "plate": "123-ALG-16"},
@@ -24,72 +26,61 @@ class _ParkingScreenState extends State<ParkingScreen> {
 
   Color _getColor(String status) {
     switch (status) {
-      case "available":
-        return Colors.green;
-      case "occupied":
-        return Colors.red;
-      case "reserved":
-        return Colors.indigo;
-      default:
-        return Colors.grey;
+      case "available": return Colors.green;
+      case "occupied": return Colors.red;
+      case "reserved": return Colors.indigo;
+      default: return Colors.grey;
     }
   }
 
   IconData _getIcon(String status) {
     switch (status) {
-      case "available":
-        return Icons.check_circle;
-      case "occupied":
-        return Icons.directions_car;
-      case "reserved":
-        return Icons.star;
-      default:
-        return Icons.help;
+      case "available": return Icons.check_circle;
+      case "occupied": return Icons.directions_car;
+      case "reserved": return Icons.star;
+      default: return Icons.help;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final lang = Provider.of<LanguageProvider>(context);
     int available = _spots.where((s) => s["status"] == "available").length;
     int occupied = _spots.where((s) => s["status"] == "occupied").length;
     int reserved = _spots.where((s) => s["status"] == "reserved").length;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Parking"),
+        title: Text(lang.t("parking")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [const LanguageButton()],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Summary cards
             Row(
               children: [
-                _summaryCard("Available", available, Colors.green),
+                _summaryCard(lang.t("available"), available, Colors.green),
                 const SizedBox(width: 8),
-                _summaryCard("Occupied", occupied, Colors.red),
+                _summaryCard(lang.t("occupied"), occupied, Colors.red),
                 const SizedBox(width: 8),
-                _summaryCard("Reserved", reserved, Colors.indigo),
+                _summaryCard(lang.t("reserved"), reserved, Colors.indigo),
               ],
             ),
             const SizedBox(height: 16),
-
-            // Legend
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _legendItem(Colors.green, "Available"),
+                _legendItem(Colors.green, lang.t("available")),
                 const SizedBox(width: 16),
-                _legendItem(Colors.red, "Occupied"),
+                _legendItem(Colors.red, lang.t("occupied")),
                 const SizedBox(width: 16),
-                _legendItem(Colors.indigo, "Reserved"),
+                _legendItem(Colors.indigo, lang.t("reserved")),
               ],
             ),
             const SizedBox(height: 16),
-
-            // Parking grid
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -105,36 +96,23 @@ class _ParkingScreenState extends State<ParkingScreen> {
                     color: _getColor(spot["status"]).withOpacity(0.1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(
-                        color: _getColor(spot["status"]),
-                        width: 2,
-                      ),
+                      side: BorderSide(color: _getColor(spot["status"]), width: 2),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          _getIcon(spot["status"]),
-                          color: _getColor(spot["status"]),
-                          size: 28,
-                        ),
+                        Icon(_getIcon(spot["status"]),
+                            color: _getColor(spot["status"]), size: 28),
                         const SizedBox(height: 4),
-                        Text(
-                          spot["number"],
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: _getColor(spot["status"]),
-                          ),
-                        ),
+                        Text(spot["number"],
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: _getColor(spot["status"]),
+                            )),
                         if (spot["plate"] != "")
-                          Text(
-                            spot["plate"],
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey,
-                            ),
-                          ),
+                          Text(spot["plate"],
+                              style: const TextStyle(fontSize: 11, color: Colors.grey)),
                       ],
                     ),
                   );
@@ -159,14 +137,8 @@ class _ParkingScreenState extends State<ParkingScreen> {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              Text(
-                count.toString(),
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
-              ),
+              Text(count.toString(),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
               Text(label, style: TextStyle(color: color)),
             ],
           ),
@@ -179,8 +151,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
     return Row(
       children: [
         Container(
-          width: 16,
-          height: 16,
+          width: 16, height: 16,
           decoration: BoxDecoration(color: color, shape: BoxShape.circle),
         ),
         const SizedBox(width: 4),

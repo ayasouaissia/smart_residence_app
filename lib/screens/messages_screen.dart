@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../language_provider.dart';
+import '../widgets/language_button.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
@@ -9,34 +12,10 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final List<Map<String, dynamic>> _chats = [
-    {
-      "name": "Building Manager",
-      "lastMessage": "Please check your mailbox",
-      "time": "10:30",
-      "unread": 2,
-      "avatar": Icons.manage_accounts,
-    },
-    {
-      "name": "Sara Mansouri",
-      "lastMessage": "Thanks for the info!",
-      "time": "09:15",
-      "unread": 0,
-      "avatar": Icons.person,
-    },
-    {
-      "name": "Security Team",
-      "lastMessage": "Your visitor has arrived",
-      "time": "Yesterday",
-      "unread": 1,
-      "avatar": Icons.security,
-    },
-    {
-      "name": "Karim Bouzid",
-      "lastMessage": "See you at the BBQ!",
-      "time": "Yesterday",
-      "unread": 0,
-      "avatar": Icons.person,
-    },
+    {"name": "Building Manager", "lastMessage": "Please check your mailbox", "time": "10:30", "unread": 2, "avatar": Icons.manage_accounts},
+    {"name": "Sara Mansouri", "lastMessage": "Thanks for the info!", "time": "09:15", "unread": 0, "avatar": Icons.person},
+    {"name": "Security Team", "lastMessage": "Your visitor has arrived", "time": "Yesterday", "unread": 1, "avatar": Icons.security},
+    {"name": "Karim Bouzid", "lastMessage": "See you at the BBQ!", "time": "Yesterday", "unread": 0, "avatar": Icons.person},
   ];
 
   final _messageController = TextEditingController();
@@ -57,18 +36,18 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedChat != null) {
-      return _chatView();
-    }
-    return _chatListView();
+    final lang = Provider.of<LanguageProvider>(context);
+    if (_selectedChat != null) return _chatView(lang);
+    return _chatListView(lang);
   }
 
-  Widget _chatListView() {
+  Widget _chatListView(LanguageProvider lang) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Messages"),
+        title: Text(lang.t("messages")),
         backgroundColor: Colors.indigo,
         foregroundColor: Colors.white,
+        actions: [const LanguageButton()],
       ),
       body: ListView.builder(
         itemCount: _chats.length,
@@ -79,10 +58,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
               backgroundColor: Colors.indigo.shade100,
               child: Icon(chat["avatar"], color: Colors.indigo),
             ),
-            title: Text(
-              chat["name"],
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+            title: Text(chat["name"],
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             subtitle: Text(chat["lastMessage"]),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -94,14 +71,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     margin: const EdgeInsets.only(top: 4),
                     padding: const EdgeInsets.all(6),
                     decoration: const BoxDecoration(
-                      color: Colors.indigo,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      "${chat["unread"]}",
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 10),
-                    ),
+                        color: Colors.indigo, shape: BoxShape.circle),
+                    child: Text("${chat["unread"]}",
+                        style: const TextStyle(color: Colors.white, fontSize: 10)),
                   ),
               ],
             ),
@@ -117,7 +89,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     );
   }
 
-  Widget _chatView() {
+  Widget _chatView(LanguageProvider lang) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_selectedChat!),
@@ -125,12 +97,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
         foregroundColor: Colors.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            setState(() {
-              _selectedChat = null;
-            });
-          },
+          onPressed: () => setState(() => _selectedChat = null),
         ),
+        actions: [const LanguageButton()],
       ),
       body: Column(
         children: [
@@ -149,17 +118,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
                     decoration: BoxDecoration(
-                      color: msg["isMe"]
-                          ? Colors.indigo
-                          : Colors.grey.shade200,
+                      color: msg["isMe"] ? Colors.indigo : Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Text(
-                      msg["text"],
-                      style: TextStyle(
-                        color: msg["isMe"] ? Colors.white : Colors.black,
-                      ),
-                    ),
+                    child: Text(msg["text"],
+                        style: TextStyle(
+                            color: msg["isMe"] ? Colors.white : Colors.black)),
                   ),
                 );
               },
@@ -175,8 +139,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     decoration: InputDecoration(
                       hintText: "Type a message...",
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
+                          borderRadius: BorderRadius.circular(24)),
                       filled: true,
                       fillColor: Colors.white,
                     ),
